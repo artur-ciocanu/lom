@@ -3,6 +3,11 @@
 .env
 .env.*
 !.env.example
+.envrc
+.netrc
+.pypirc
+id_rsa
+id_ed25519
 *.key
 *.pem
 *.p12

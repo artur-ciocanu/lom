@@ -401,6 +401,18 @@ wheels = [
 ]
 
 [[package]]
+name = "coding-tools-mcp"
+version = "0.5.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyjwt" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/5b/d1/70e9f7d351fa2b8a772cfbab60b7b30bb03e8ff636c05d4632fbbc7f0ed3/coding_tools_mcp-0.5.0.tar.gz", hash = "sha256:4bcc17f91d89da703544848e191f16692c9d9385338bc97ffb9675145f79cf4b", size = 190873, upload-time = "2026-09-30T06:56:46.102Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/52/53/ecbb1756a46299b8199cc996c8157d75bcb7019ce00213fcb338eb6bbbeb/coding_tools_mcp-0.5.0-py3-none-any.whl", hash = "sha256:2d728ba41e49cad71a20228e228bb36492617d0caea5b6ae73d8e7c5186a1edc", size = 171641, upload-time = "2026-09-30T06:56:44.508Z" },
+]
+
+[[package]]
 name = "cryptography"
 version = "50.0.2"
 source = { registry = "https://pypi.org/simple" }
@@ -917,6 +929,7 @@ name = "mcp-skills-experiment"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "coding-tools-mcp" },
     { name = "pydantic-ai-harness", extra = ["skills"] },
     { name = "pydantic-ai-slim", extra = ["google", "mcp", "openai", "spec"] },
 ]
@@ -930,6 +943,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "coding-tools-mcp", specifier = "==0.5.0" },
     { name = "pydantic-ai-harness", extras = ["skills"], specifier = "==0.66.0" },
     { name = "pydantic-ai-slim", extras = ["google", "mcp", "openai", "spec"], specifier = "==2.66.0" },
 ]

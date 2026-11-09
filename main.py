@@ -26,6 +26,15 @@ def build_agent(
     )
 
 
+def write_trace(path: Path, content: bytes) -> None:
+    """Create a private trace without overwriting an existing file or symlink."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
+    fd = os.open(path, flags, 0o600)
+    with os.fdopen(fd, "wb") as trace:
+        trace.write(content)
+
+
 async def run() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("task", help="Task for the agent")
@@ -45,7 +54,7 @@ async def run() -> None:
     workspace = args.workspace.resolve(strict=True)
     agent_path = args.agent.resolve()
     mcp_path = args.mcp.resolve()
-    trace_path = args.trace.resolve() if args.trace else None
+    trace_path = args.trace.absolute() if args.trace else None
     if not workspace.is_dir():
         parser.error("--workspace must be a directory")
 
@@ -64,8 +73,7 @@ async def run() -> None:
                 print(f"  {part.tool_name}")
 
     if trace_path:
-        trace_path.parent.mkdir(parents=True, exist_ok=True)
-        trace_path.write_bytes(result.all_messages_json())
+        write_trace(trace_path, result.all_messages_json())
         print(f"\nFull trace saved to {trace_path}")
 
 

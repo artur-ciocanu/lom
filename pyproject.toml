@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "A minimal PydanticAI agent assembled from skills and MCP servers."
 requires-python = ">=3.11"
 dependencies = [
+    "coding-tools-mcp==0.5.0",
     "pydantic-ai-harness[skills]==0.66.0",
     "pydantic-ai-slim[google,mcp,openai,spec]==2.66.0",
 ]
@@ -25,7 +26,7 @@ target-version = "py311"
 select = ["E", "F", "I", "UP", "B"]
 
 [tool.pyright]
-include = ["main.py", "tests", "fixture"]
+include = ["main.py", "scripts", "tests", "fixture"]
 pythonVersion = "3.11"
 typeCheckingMode = "standard"
 venvPath = "."

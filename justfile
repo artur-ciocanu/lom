@@ -21,6 +21,9 @@ format:
 type-check:
     uv run --locked pyright
 
+audit:
+    uv audit --locked
+
 test:
     uv run --locked python -m unittest discover -s tests -v
 

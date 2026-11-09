@@ -1,9 +1,8 @@
 {
   "mcpServers": {
     "coding": {
-      "command": "uvx",
+      "command": "coding-tools-mcp",
       "args": [
-        "coding-tools-mcp==0.5.0",
         "--stdio",
         "--permission-mode",
         "safe",
