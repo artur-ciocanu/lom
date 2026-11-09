@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "coding": {
+      "command": "uvx",
+      "args": [
+        "coding-tools-mcp==0.5.0",
+        "--stdio",
+        "--permission-mode",
+        "safe",
+        "--workspace",
+        "${CODING_WORKSPACE}"
+      ],
+      "env": {
+        "CODING_TOOLS_MCP_TELEMETRY": "off"
+      }
+    }
+  }
+}

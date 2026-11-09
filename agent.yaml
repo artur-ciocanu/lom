@@ -1,0 +1,9 @@
+name: mcp_skills_experiment
+model: openai:gpt-4.1-mini
+instructions: >-
+  Use the available skills when relevant. Perform actions only through the
+  available MCP tools. If an action is unavailable, explain what is missing.
+capabilities:
+  - LocalWorkspace: .
+  - Skills:
+      directories: skills

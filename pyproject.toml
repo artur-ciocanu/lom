@@ -1,0 +1,32 @@
+[project]
+name = "mcp-skills-experiment"
+version = "0.1.0"
+description = "A minimal PydanticAI agent assembled from skills and MCP servers."
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic-ai-harness[skills]==0.66.0",
+    "pydantic-ai-slim[google,mcp,openai,spec]==2.66.0",
+]
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.7.0",
+    "pyright>=1.1.414",
+    "ruff>=0.17.4",
+]
+
+[tool.ruff]
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pyright]
+include = ["main.py", "tests", "fixture"]
+pythonVersion = "3.11"
+typeCheckingMode = "standard"
+venvPath = "."
+venv = ".venv"
