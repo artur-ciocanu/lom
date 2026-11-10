@@ -3,6 +3,7 @@
 import argparse
 import asyncio
 import os
+import sys
 from pathlib import Path
 
 from pydantic_ai import Agent
@@ -37,13 +38,15 @@ def write_trace(path: Path, content: bytes) -> None:
 
 async def run() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("task", help="Task for the agent")
+    parser.add_argument(
+        "task", nargs="?", help="Task for the agent (defaults to stdin)"
+    )
     parser.add_argument(
         "--workspace", type=Path, required=True, help="Existing coding workspace"
     )
     parser.add_argument("--agent", type=Path, default=ROOT / "agent.yaml")
     parser.add_argument("--mcp", type=Path, default=ROOT / "mcp.json")
-    parser.add_argument("--model", help="Override the model in the agent spec")
+    parser.add_argument("--model", required=True, help="Model as PROVIDER:MODEL")
     parser.add_argument(
         "--trace",
         type=Path,
@@ -58,12 +61,24 @@ async def run() -> None:
     if not workspace.is_dir():
         parser.error("--workspace must be a directory")
 
+    if args.task is None:
+        if sys.stdin.isatty():
+            print(
+                "Enter the task, then press Ctrl-D (Ctrl-Z on Windows).",
+                file=sys.stderr,
+            )
+        task = sys.stdin.read()
+    else:
+        task = args.task
+    if not task.strip():
+        parser.error("provide a non-empty task as an argument or on stdin")
+
     # Skills resolve from this experiment's directory; the MCP server receives
     # the separate coding workspace via its configuration.
     os.chdir(ROOT)
     os.environ["CODING_WORKSPACE"] = str(workspace)
     agent = build_agent(agent_path, mcp_path, model=args.model)
-    result = await agent.run(args.task, usage_limits=UsageLimits(request_limit=30))
+    result = await agent.run(task, usage_limits=UsageLimits(request_limit=30))
 
     print(result.output)
     print("\nTool calls:")
