@@ -46,7 +46,7 @@ async def run() -> None:
     )
     parser.add_argument("--agent", type=Path, default=ROOT / "agent.yaml")
     parser.add_argument("--mcp", type=Path, default=ROOT / "mcp.json")
-    parser.add_argument("--model", help="Override the model in the agent spec")
+    parser.add_argument("--model", required=True, help="Model as PROVIDER:MODEL")
     parser.add_argument(
         "--trace",
         type=Path,

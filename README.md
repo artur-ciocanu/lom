@@ -31,7 +31,7 @@ minimal fix, and verify the result.
 
 The pieces are deliberately separate:
 
-- [`agent.yaml`](agent.yaml) defines the model, system prompt, and skills
+- [`agent.yaml`](agent.yaml) defines the system prompt and skills
   configuration.
 - [`skills/`](skills/) contains the reusable instructions.
 - [`mcp.json`](mcp.json) configures the action tools.
@@ -43,19 +43,20 @@ sandbox that server or guarantee that different implementations behave alike.
 
 ## Try it
 
-You need Python 3.11+, [uv](https://docs.astral.sh/uv/), and an API key for the
-configured model. The default is `openai:gpt-4.1-mini`, which requires
-`OPENAI_API_KEY`.
+You need Python 3.11+, [uv](https://docs.astral.sh/uv/), and a model available
+through a supported PydanticAI provider, with the appropriate credentials. Lom
+has no default model; select one using `--model PROVIDER:MODEL`.
 
 Use a disposable workspace. The fixture starts with a failing test, so copy it
 rather than letting the agent change the original:
 
 ```sh
 uv sync
+export MODEL='PROVIDER:MODEL'  # Replace with your provider and model ID.
 mkdir -p /path/to/disposable-workspace
 cp fixture/*.py /path/to/disposable-workspace/
 printf '%s\n' 'Investigate the failing tests, fix the cause, and verify the change.' | \
-  uv run python main.py --workspace /path/to/disposable-workspace
+  uv run python main.py --model "$MODEL" --workspace /path/to/disposable-workspace
 ```
 
 Lom reads the task from stdin until EOF. To enter it interactively, type the
@@ -65,8 +66,7 @@ argument; that takes precedence over stdin. Empty tasks are rejected.
 ## Configuration
 
 - Edit `agent.yaml` or pass `--agent PATH` to select an agent configuration.
-  Pass `--model PROVIDER:MODEL` to override its model; the selected provider
-  requires its own credentials.
+  Select a model for each run with `--model PROVIDER:MODEL`.
 - Edit `mcp.json` or pass `--mcp PATH` to select the MCP servers. The bundled
   server receives `--workspace` through `CODING_WORKSPACE`. Skills are resolved
   separately, relative to the Lom directory.

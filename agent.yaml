@@ -1,5 +1,4 @@
 name: mcp_skills_experiment
-model: openai:gpt-4.1-mini
 instructions: >-
   Complete the user's coding task. Report what changed and what you verified.
 capabilities:
